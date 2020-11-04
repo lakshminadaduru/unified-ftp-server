@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+	xmlns="http://mina.apache.org/ftpserver/spring/v1"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+             http://www.springframework.org/schema/tx
+             http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+             http://www.springframework.org/schema/aop
+             http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+             http://www.springframework.org/schema/lang
+             http://www.springframework.org/schema/lang/spring-lang-2.0.xsd
+             http://mina.apache.org/ftpserver/spring/v1
+             http://mina.apache.org/ftpserver/ftpserver-1.0.xsd ">
+	<server id="server">
+		<listeners>
+		<nio-listener name="default" port="2222" implicit-ssl="false"
+			idle-timeout="60" local-address="localhost">
+			<!--ssl>
+				<keystore file="tutorial.jks" password="password"
+					key-password="password" />
+				<truststore file="tutorial.jks" password="password" />
+			</ssl-->
+			<data-connection idle-timeout="60">
+				<active enabled="true" />
+				<passive ports="50000-50150"/>
+			</data-connection>
+		</nio-listener>
+	</listeners>
+		<ftplets>
+			<ftplet name="ftplet1">
+				<beans:bean
+					class="uk.hmrc.spring.servers.UnifiedFTPlet">
+				</beans:bean>
+			</ftplet>
+		</ftplets>
+		<file-user-manager file="users.properties"
+			encrypt-passwords="false" />
+		<native-filesystem case-insensitive="false"
+			create-home="false" />
+	</server>
+</beans:beans>
